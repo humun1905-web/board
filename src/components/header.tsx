@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PenSquare } from "lucide-react";
+import { PenSquare, LogOut } from "lucide-react";
+import { logoutAction } from "@/lib/auth-actions";
 
 export default function Header() {
   return (
@@ -9,12 +10,20 @@ export default function Header() {
         <Link href="/" className="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity">
           공인검사실 소통게시판
         </Link>
-        <Link href="/posts/new">
-          <Button size="sm" className="gap-1.5">
-            <PenSquare className="h-4 w-4" />
-            글쓰기
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/posts/new">
+            <Button size="sm" className="gap-1.5">
+              <PenSquare className="h-4 w-4" />
+              글쓰기
+            </Button>
+          </Link>
+          <form action={logoutAction}>
+            <Button type="submit" size="sm" variant="ghost" className="gap-1.5 text-muted-foreground">
+              <LogOut className="h-4 w-4" />
+              로그아웃
+            </Button>
+          </form>
+        </div>
       </div>
     </header>
   );
