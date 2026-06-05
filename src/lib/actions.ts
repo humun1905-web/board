@@ -6,7 +6,7 @@ import {
   createPost, updatePost, deletePost,
   incrementViews, toggleLike, toggleDislike,
   verifyPostPassword,
-  createComment, deleteComment,
+  createComment, deleteComment, verifyCommentPassword,
 } from "@/lib/store";
 import { PostFormData, CommentFormData } from "@/types/post";
 
@@ -59,6 +59,10 @@ export async function createCommentAction(postId: number, data: CommentFormData)
   }
   await createComment(postId, data);
   revalidatePath(`/posts/${postId}`);
+}
+
+export async function verifyCommentPasswordAction(commentId: number, password: string): Promise<boolean> {
+  return verifyCommentPassword(commentId, password);
 }
 
 export async function deleteCommentAction(commentId: number, postId: number) {

@@ -129,18 +129,32 @@ export async function getComments(postId: number): Promise<Comment[]> {
 }
 
 export async function createComment(postId: number, data: CommentFormData): Promise<Comment> {
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+
   const { data: row, error } = await supabase
     .from("comments")
     .insert({
       post_id: postId,
       author: data.author,
       content: data.content,
+      password: hashedPassword,
     })
     .select()
     .single();
 
   if (error) throw new Error(error.message);
   return toComment(row as CommentRow);
+}
+
+export async function verifyCommentPassword(id: number, password: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("comments")
+    .select("password")
+    .eq("id", id)
+    .single();
+
+  if (error || !data) return false;
+  return bcrypt.compare(password, (data as { password: string }).password);
 }
 
 export async function deleteComment(id: number): Promise<boolean> {

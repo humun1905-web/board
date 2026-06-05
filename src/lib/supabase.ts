@@ -24,5 +24,6 @@ export type CommentRow = {
   post_id: number;
   author: string;
   content: string;
+  password: string;
   created_at: string;
 };

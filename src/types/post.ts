@@ -23,4 +23,4 @@ export interface Comment {
   createdAt: string;
 }
 
-export type CommentFormData = Pick<Comment, "author" | "content">;
+export type CommentFormData = Pick<Comment, "author" | "content"> & { password: string };
